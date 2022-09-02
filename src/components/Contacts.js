@@ -1,7 +1,17 @@
-function Contacts() {
-    return (<>
-    <h1>Contacts</h1>
-    </>);
+import { useContext } from 'react'
+import { ListGroup } from 'react-bootstrap'
+import { contactContext } from '../contexts/ContactsProvider'
+function Contacts () {
+  const ContactContext = useContext(contactContext)
+  return (
+    <>
+      <ListGroup variant='flush'>
+        {ContactContext.contacts.map(contact => (
+          <ListGroup.Item key={contact.id}>{contact.name}</ListGroup.Item>
+        ))}
+      </ListGroup>
+    </>
+  )
 }
 
-export default Contacts;
+export default Contacts

@@ -1,11 +1,18 @@
-import Sidebar from "./Sidebar";
+import { useContext } from 'react'
+import { conversationContext } from '../contexts/ConversationsProvider'
+import OpenConversation from './OpenConversation'
+import Sidebar from './Sidebar'
 
-function Dashboard({  id  }) {
-    return (
-        <div style={{maxHeight:'100vh'}}>
-            <Sidebar id={id}/>
-        </div>
-    );
+function Dashboard ({ id }) {
+  const ConversationContext = useContext(conversationContext)
+  return (
+    <div style={{ maxHeight: '100vh', display: 'flex' ,overflowX: 'hidden'}}>
+      <Sidebar id={id} />
+      {ConversationContext.selectedConversationIndex > -1 && (
+        <OpenConversation />
+      )}
+    </div>
+  )
 }
 
-export default Dashboard;
+export default Dashboard

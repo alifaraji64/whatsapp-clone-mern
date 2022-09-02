@@ -10,8 +10,13 @@ const ContactsProvider = ({  children  }) => {
             return [...prevContacts,{ id, name}]
         })
     }
+    const findName = (id)=>{
+        const name = contacts.find(contact=>contact.id==id).name;
+        console.log(name);
+        return name;
+    }
     return (
-        <contactContext.Provider value={{contacts, createContact}}>
+        <contactContext.Provider value={{contacts, createContact, findName}}>
             {children}
         </contactContext.Provider>
     );
