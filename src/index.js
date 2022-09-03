@@ -5,15 +5,18 @@ import App from './App'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ContactsProvider from './contexts/ContactsProvider'
 import ConversationsProvider from './contexts/ConversationsProvider'
+import SocketProvider from './contexts/SocketProvider'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <ContactsProvider>
-      <ConversationsProvider>
-        <App />
-      </ConversationsProvider>
-    </ContactsProvider>
+    <SocketProvider>
+      <ContactsProvider>
+        <ConversationsProvider>
+          <App />
+        </ConversationsProvider>
+      </ContactsProvider>
+    </SocketProvider>
   </React.StrictMode>
 )
 

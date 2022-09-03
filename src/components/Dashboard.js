@@ -9,7 +9,7 @@ function Dashboard ({ id }) {
     <div style={{ maxHeight: '100vh', display: 'flex' ,overflowX: 'hidden'}}>
       <Sidebar id={id} />
       {ConversationContext.selectedConversationIndex > -1 && (
-        <OpenConversation />
+        <OpenConversation id={id} />
       )}
     </div>
   )

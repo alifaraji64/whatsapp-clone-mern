@@ -11,8 +11,7 @@ const ContactsProvider = ({  children  }) => {
         })
     }
     const findName = (id)=>{
-        const name = contacts.find(contact=>contact.id==id).name;
-        console.log(name);
+        const name = contacts.find(contact=>contact.id==id).name || id;
         return name;
     }
     return (
