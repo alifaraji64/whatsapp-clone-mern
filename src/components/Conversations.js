@@ -8,7 +8,6 @@ function Conversations () {
   return (
     <>
       <ListGroup variant='flush'>
-        {console.log(ConversationContext.conversations)}
         {ConversationContext.conversations.map((conversation,index) =>(
         <ListGroup.Item
         key={index}

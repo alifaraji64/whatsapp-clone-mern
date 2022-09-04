@@ -1,9 +1,11 @@
-import { createContext, useState, useContext } from 'react'
+import { createContext, useState, useContext, useEffect } from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
 import { contactContext } from './ContactsProvider'
+import { socketContext } from './SocketProvider'
 export const conversationContext = createContext()
 const ConversationsProvider = ({ children }) => {
   const ContactContext = useContext(contactContext)
+  const SocketContext = useContext(socketContext)
   const [conversations, setConversations] = useLocalStorage('conversations', [])
   const [id, setId] = useLocalStorage('id')
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(-1)
@@ -18,7 +20,9 @@ const ConversationsProvider = ({ children }) => {
       ]
     })
   }
+
   const addMessageToConversation = ({ recipients, text, sender }) => {
+    console.log(recipients);
     setConversations(prevConversations => {
       let madeChange = false
       const newMessage = { text, sender }
@@ -37,19 +41,20 @@ const ConversationsProvider = ({ children }) => {
         return conversation
       })
       return newConversations
-
-      // if (madeChange) {
-      //   return newConversations;
-      // } else {
-      //   //if we have this conversation already
-      //   console.log(recipients);
-      //   return [...prevConversations, { recipients, messages: [newMessage] }]
-
-      // }
     })
   }
+  useEffect(() => {
+    console.log('use effect');
+    if(!SocketContext.socket) return;
+    SocketContext.socket.on('recieve-message', addMessageToConversation)
+    return ()=> {
+      console.log('closed');
+      SocketContext.socket.off('recieve-message')
+    }
+
+  },[SocketContext.socket, addMessageToConversation]);
   const sendMessage = ({ recipients, text, id }) => {
-    console.log(id)
+    SocketContext.socket.emit('send-message',{ recipients, text })
     addMessageToConversation({ recipients, text, sender: id })
   }
 
